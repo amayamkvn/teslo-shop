@@ -33,5 +33,16 @@ export class CreateProductDto {
     @IsIn(['men','women','kid','unisex']) //IsIn Sirve para validar que el dato gender esté dentro de un arreglo en especifico
     gender: string;
 
+    @IsString({ each: true}) //Para que cada dato del arreglo tenga que cumplir con esta regla
+    @IsArray()
+    @IsOptional()
+    tags?: string[];
+
+    @IsString({ each: true}) //Para que cada dato del arreglo tenga que cumplir con esta regla
+    @IsArray()
+    @IsOptional()
+    images?: string[];
+    
+
 
 }

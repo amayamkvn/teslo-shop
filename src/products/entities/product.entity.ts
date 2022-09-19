@@ -1,4 +1,6 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Optional } from "@nestjs/common";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { ProductImage } from './product-image.entity';
 
 @Entity() //Es necesario este decorador para declarar esra clase como un entity lo cúal sería la representación de una tabla en la base de datos
 export class Product {
@@ -44,9 +46,24 @@ export class Product {
 
 
     //tags
+    @Column('text',{
+        array: true, //Definimos que este datp será un arreglo de strings
+        default: []
+    })
+    tags: string[];
+
+    //Relación con la tabla productImages 
+    @OneToMany(
+        () => ProductImage,
+        (productImage) => productImage.product,
+        { 
+            cascade: true, //Ayuda a realizar procesos para varios elementos consecutivamente, por ejemplo si elimino una imagene, se eliminarán todas las que pertenezcan a esa cascada
+            eager: true //Sirve para que cada vez que usemos el metodo find va cargar automaticamente los datos de la tabla relacionada
+        }  
+    ) 
+    images?: ProductImage[];
 
 
-    //images
 
     @BeforeInsert()
     checkSlugInsert(){
@@ -75,9 +92,13 @@ export class Product {
 
     }
 
-    //@BeforeUpdate()
-
-
+    @BeforeUpdate()
+    checkSlugUpdate(){
+        this.slug = this.slug
+            .toLowerCase() 
+            .replaceAll(' ', '_') 
+            .replaceAll("'", ''); 
+    }
 
 }
 
