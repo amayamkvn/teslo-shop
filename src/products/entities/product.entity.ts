@@ -2,7 +2,8 @@ import { Optional } from "@nestjs/common";
 import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { ProductImage } from './product-image.entity';
 
-@Entity() //Es necesario este decorador para declarar esra clase como un entity lo cúal sería la representación de una tabla en la base de datos
+//Es necesario este decorador para declarar esra clase como un entity lo cúal sería la representación de una tabla en la base de datos
+@Entity({ name: 'products'}) //Nombre de la tabla
 export class Product {
 
     @PrimaryGeneratedColumn('uuid') //Genera la columna principal dónde estrá el id que será de tipo UUID
