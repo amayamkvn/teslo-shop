@@ -21,3 +21,5 @@ http://localhost/api/seed
 ```
 
 7. Levantar el proyecto: ``` npm run start:dev ```
+
+- npm i -D @types/multer
