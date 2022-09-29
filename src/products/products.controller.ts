@@ -8,6 +8,12 @@ import { PaginationDto } from '../common/dtos/pagination.dto';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @Get('/prueba/:id_pei')
+  getHello(@Param() params):any{
+    return this.productsService.getPei(params);
+  }
+
+
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);

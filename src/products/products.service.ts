@@ -9,14 +9,21 @@ import { PaginationDto } from '../common/dtos/pagination.dto';
 import { Product } from './entities/product.entity';
 import { validate as uuid } from 'uuid';
 import { ProductImage } from './entities/product-image.entity';
+import { HttpService } from '@nestjs/axios';
+import { map } from 'rxjs';
+import { response } from 'express';
 
 
 @Injectable()
 export class ProductsService {
 
+  private data = {
+
+  }
   private readonly logger = new Logger('ProductsService'); //Sirve para lanzar errore mas especificos
 
   constructor(
+    private httptService: HttpService,
     //Aquí hacemos la inyección de nuestro entiry product
     //El productRepository va manejar el repositorio de product
     @InjectRepository(Product)
@@ -31,6 +38,18 @@ export class ProductsService {
 
   ){}
 
+  getPei(params){
+    return this.httptService
+    .get(`http://localhost:3100/api/pei/${params.id_pei}`)
+    .pipe(
+      map((response) => response.data),
+      map((data) => ({
+        ...this.data[params.id_pei],
+        nombre_pei: data.nombre_pei,
+        id_pei: data.id_pei
+      }))
+    );
+  }
   //Create new peoduct
   async create(createProductDto: CreateProductDto) {
     // if( !createProductDto.slug ){ //Si el slug no existe

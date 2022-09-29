@@ -4,6 +4,7 @@ import { ProductsController } from './products.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Product, ProductImage } from './entities'; //Exportados desde el archivo barril
+import { HttpModule } from '@nestjs/axios';
 
 
 @Module({
@@ -11,6 +12,7 @@ import { Product, ProductImage } from './entities'; //Exportados desde el archiv
   providers: [ProductsService],
   imports: [
     TypeOrmModule.forFeature([ Product, ProductImage ]), //Importamos el entity de productos
+    HttpModule
   ],
   exports: [
     ProductsService,
@@ -18,3 +20,5 @@ import { Product, ProductImage } from './entities'; //Exportados desde el archiv
   ]
 })
 export class ProductsModule {}
+
+
